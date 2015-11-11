@@ -1,0 +1,26 @@
+{
+  "name": "passwordmaker",
+  "version": "0.1.0",
+  "description": "A Node.js library for Password Maker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emersion/node-passwordmaker.git"
+  },
+  "keywords": [
+    "password",
+    "maker",
+    "generator",
+    "security",
+    "pass"
+  ],
+  "author": "emersion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emersion/node-passwordmaker/issues"
+  },
+  "homepage": "https://github.com/emersion/node-passwordmaker#readme"
+}

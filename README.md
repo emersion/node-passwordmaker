@@ -1,2 +1,17 @@
 # node-passwordmaker
-A Node.js library for Password Maker
+
+A Node.js library for [Password Maker](http://passwordmaker.org/).
+
+## Usage
+
+```js
+var makepwd = require('passwordmaker');
+
+console.log(makepwd({
+	hashAlgorithm: 'sha256',
+	masterPassword: 'test',
+	input: 'example.org',
+	length: 8,
+	charset: ''
+}));
+```
