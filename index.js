@@ -14,7 +14,7 @@ function generate(opts) {
 	}
 
 	// Apply l33t before the algorithm?
-	if (opts.whereToUseL33t == "both" || opts.whereToUseL33t == "before-hashing") {
+	if (opts.whereToUseL33t == 'both' || opts.whereToUseL33t == 'before-hashing') {
 		key = l33t.convert(opts.l33tLevel, opts.key);
 		if (usingHMAC) {
 			opts.data = l33t.convert(opts.l33tLevel, opts.data); // new for 0.3; 0.2 didn't apply l33t to _data_ for HMAC algorithms
@@ -24,49 +24,49 @@ function generate(opts) {
 	// Apply the algorithm
 	var password = '';
 	switch(opts.hashAlgorithm) {
-		case "sha256":
+		case 'sha256':
 		password = sha256.any_sha256(opts.key, opts.charset);
 		break;
-		case "hmac-sha256":
+		case 'hmac-sha256':
 		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, true);
 		break;
-		case "hmac-sha256_fix":
+		case 'hmac-sha256_fix':
 		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, false);
 		break;
-		case "sha1":
+		case 'sha1':
 		password = sha1.any_sha1(opts.key, opts.charset);
 		break;
-		case "hmac-sha1":
+		case 'hmac-sha1':
 		password = sha1.any_hmac_sha1(opts.key, opts.data, opts.charset);
 		break;
-		case "md4":
+		case 'md4':
 		password = md4.any_md4(opts.key, opts.charset);
 		break;
-		case "hmac-md4":
+		case 'hmac-md4':
 		password = md4.any_hmac_md4(opts.key, opts.data, opts.charset);
 		break;
-		case "md5":
+		case 'md5':
 		password = md5.any_md5(opts.key, opts.charset);
 		break;
-		case "md5_v6":
+		case 'md5_v6':
 		password = md5_v6.hex_md5(opts.key, opts.charset);
 		break;
-		case "hmac-md5":
+		case 'hmac-md5':
 		password = md5.any_hmac_md5(opts.key, opts.data, opts.charset);
 		break;
-		case "hmac-md5_v6":
+		case 'hmac-md5_v6':
 		password = md5_v6.hex_hmac_md5(opts.key, opts.data, opts.charset);
 		break;
-		case "rmd160":
+		case 'rmd160':
 		password = ripemd160.any_rmd160(opts.key, opts.charset);
 		break;
-		case "hmac-rmd160":
+		case 'hmac-rmd160':
 		password = ripemd160.any_hmac_rmd160(opts.key, opts.data, opts.charset);
 		break;
 	}
 
 	// Apply l33t after the algorithm?
-	if (opts.whereToUseL33t == "both" || opts.whereToUseL33t == "after-hashing") {
+	if (opts.whereToUseL33t == 'both' || opts.whereToUseL33t == 'after-hashing') {
 		password = l33t.convert(opts.l33tLevel, password);
 	}
 
@@ -102,7 +102,7 @@ module.exports = function (opts) {
 
 	// Calls generate() n times in order to support passwords
 	// of arbitrary length regardless of character set length.
-	var password = "";
+	var password = '';
 	var count = 0;
 	while (password.length < opts.length) {
 		var generateOpts = {
@@ -118,7 +118,7 @@ module.exports = function (opts) {
 		};
 
 		// To maintain backwards compatibility with all previous versions of passwordmaker,
-		// the first call to generate() must use the plain "key".
+		// the first call to generate() must use the plain 'key'.
 		// Subsequent calls add a number to the end of the key so each iteration
 		// doesn't generate the same hash value.
 		if (count > 0) {
