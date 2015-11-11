@@ -10,7 +10,7 @@ var makepwd = require('passwordmaker');
 console.log(makepwd({
 	hashAlgorithm: 'sha256',
 	masterPassword: 'test',
-	input: 'example.org',
+	data: 'example.org',
 	length: 8,
 	charset: ''
 }));
