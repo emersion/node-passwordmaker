@@ -15,7 +15,7 @@ function generate(opts) {
 
 	// Apply l33t before the algorithm?
 	if (opts.whereToUseL33t == 'both' || opts.whereToUseL33t == 'before-hashing') {
-		key = l33t.convert(opts.l33tLevel, opts.key);
+		opts.key = l33t.convert(opts.l33tLevel, opts.key);
 		if (usingHMAC) {
 			opts.data = l33t.convert(opts.l33tLevel, opts.data); // new for 0.3; 0.2 didn't apply l33t to _data_ for HMAC algorithms
 		}
@@ -27,10 +27,10 @@ function generate(opts) {
 		case 'sha256':
 		password = sha256.any_sha256(opts.key, opts.charset);
 		break;
-		case 'hmac-sha256':
+		case 'hmac-sha256_unfixed':
 		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, true);
 		break;
-		case 'hmac-sha256_fix':
+		case 'hmac-sha256':
 		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, false);
 		break;
 		case 'sha1':
