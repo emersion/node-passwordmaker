@@ -1,10 +1,6 @@
+var crypto = require('crypto');
 var l33t = require('./lib/l33t');
-var sha256 = require('./lib/sha256');
-var sha1 = require('./lib/sha1');
-var md4 = require('./lib/md4');
-var md5 = require('./lib/md5');
-var md5_v6 = require('./lib/md5_v6');
-var ripemd160 = require('./lib/ripemd160');
+var hashutils = require('./lib/hashutils');
 
 function generate(opts) {
 	// For non-hmac algorithms, the key is master password and data concatenated
@@ -22,48 +18,15 @@ function generate(opts) {
 	}
 
 	// Apply the algorithm
-	var password = '';
-	switch(opts.hashAlgorithm) {
-		case 'sha256':
-		password = sha256.any_sha256(opts.key, opts.charset);
-		break;
-		case 'hmac-sha256_unfixed':
-		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, true);
-		break;
-		case 'hmac-sha256':
-		password = sha256.any_hmac_sha256(opts.key, opts.data, opts.charset, false);
-		break;
-		case 'sha1':
-		password = sha1.any_sha1(opts.key, opts.charset);
-		break;
-		case 'hmac-sha1':
-		password = sha1.any_hmac_sha1(opts.key, opts.data, opts.charset);
-		break;
-		case 'md4':
-		password = md4.any_md4(opts.key, opts.charset);
-		break;
-		case 'hmac-md4':
-		password = md4.any_hmac_md4(opts.key, opts.data, opts.charset);
-		break;
-		case 'md5':
-		password = md5.any_md5(opts.key, opts.charset);
-		break;
-		case 'md5_v6':
-		password = md5_v6.hex_md5(opts.key, opts.charset);
-		break;
-		case 'hmac-md5':
-		password = md5.any_hmac_md5(opts.key, opts.data, opts.charset);
-		break;
-		case 'hmac-md5_v6':
-		password = md5_v6.hex_hmac_md5(opts.key, opts.data, opts.charset);
-		break;
-		case 'rmd160':
-		password = ripemd160.any_rmd160(opts.key, opts.charset);
-		break;
-		case 'hmac-rmd160':
-		password = ripemd160.any_hmac_rmd160(opts.key, opts.data, opts.charset);
-		break;
+	var hash;
+	if (usingHMAC) {
+		hash = crypto.createHmac(opts.hashAlgorithm.replace('hmac-', ''), opts.key);
+		hash.update(opts.data, 'utf8');
+	} else {
+		hash = crypto.createHash(opts.hashAlgorithm);
+		hash.update(opts.key, 'utf8');
 	}
+	var password = hashutils.rstr2any(hash.digest('binary'), opts.charset);
 
 	// Apply l33t after the algorithm?
 	if (opts.whereToUseL33t == 'both' || opts.whereToUseL33t == 'after-hashing') {
